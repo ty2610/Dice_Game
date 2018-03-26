@@ -13,12 +13,11 @@ public class ServiceReceiver extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String first = request.getParameter("stuff");
-        String second = request.getParameter("other");
+        int numberOfSims = Integer.parseInt(request.getParameter("sims"));
 
         Driver driver = new Driver();
 
-        String ret = driver.runner();
+        String ret = driver.runner(numberOfSims);
         response.getWriter().write(ret);
     }
 }

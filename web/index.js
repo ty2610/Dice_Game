@@ -1,34 +1,41 @@
-$(document).ready(function() {
-    $("#testClick").click( function()
-        {
-            testerClick();
-        }
-    );
-});
+var indexApp = angular.module('indexApp', []);
 
-function testerClick() {
-    var send;
-    send = {
-        stuff:"ayyyye",
-        other:"naayyyyyy"
+indexApp.controller('IndexController', function PhoneListController($scope) {
+
+    $scope.show = function () {
+
     };
-    /*$.get(
-        "\\src\\Demo\\ServiceReceiver.java",
-        send, //meaasge you want to send
-        function(result) {
-            alert(result);
-        });*/
-    $.ajax({
-        url: 'sendIt',
-        data: send,
-        type:'GET',
-        cache: false,
-        contentType: "application/json; charset=utf-8",
-        success:function(data){
-            alert(data);
-        },
-        error:function(){
-            alert('error');
+
+    $scope.submitNumber = function () {
+        var send;
+        var input = $("#simulationInput").val();
+        var result;
+        if ($scope.isNormalInteger(input)) {
+            send = {
+                sims: input
+            };
+            $.ajax({
+                url: 'sendIt',
+                data: send,
+                type: 'GET',
+                cache: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $scope.games = JSON.parse(data);
+                    $("#simulationInput").val("");
+                    $scope.$apply()
+                },
+                error: function () {
+                    alert('error');
+                }
+            });
+        } else {
+            window.alert("You must enter an integer.");
         }
-    });
-}
+    };
+
+    $scope.isNormalInteger = function (str) {
+        var n = Math.floor(Number(str));
+        return n !== Infinity && String(n) === str && n >= 0;
+    };
+});

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="indexApp">
 <head>
     <meta charset="UTF-8">
     <title>Craps Simulator</title>
@@ -7,17 +7,42 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="index.js"></script>
     <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
-    <div class="content_container">
-        <div class="container-fluid">
-            <div class="row header_Row">
+    <div class="content_container padTopContainer">
+        <div class="container-fluid"  ng-controller="IndexController">
+            <div class="row justify-content-center">
                 <div class="col-sm text-center">
-                    <button id="testClick">Click Me</button>
-                </div>
-                <div class="col-sm text-center">
+                    <div><h3>How many games of Craps would you like to simulate?</h3></div>
+                    <form ng-submit="submitNumber()">
+                        <input autocomplete="off" class="form-control inputBox" type="text" placeholder="Simulation Count" id="simulationInput">
+                    </form>
+                    <button class="submitButton" id="testClick" ng-click="submitNumber()">Simulate</button>
+                    <table class="table table-striped dynamicTable ng-cloak">
+                        <thead>
+                            <tr>
+                                <th scope="col">Game Number</th>
+                                <th scope="col">Outcome</th>
+                                <th scope="col">Number of Rolls</th>
+                                <th scope="col">Last Dice</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div>
+                                <tr ng-repeat="values in games track by $index">
+                                    <td scope="row">{{$index+1}}</td>
+                                    <td>{{values.gameWon ? 'Win' : 'Loss' }}</td>
+                                    <td>{{values.rollCount}}</td>
+                                    <td>
+                                        <span ng-repeat="i in values.finalThrow track by $index">{{i}}{{$last ? '' : ', '}}</span>
+                                    </td>
+                                </tr>
+                            </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

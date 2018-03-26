@@ -1,8 +1,7 @@
 package Demo;
 
-import javax.servlet.jsp.JspWriter;
-import java.io.*;
-import java.util.*;
+import com.google.gson.Gson;
+
 public class Driver
 {
 
@@ -16,7 +15,7 @@ public class Driver
 
 */
 	//public static void main(String[] args)
-	public String runner() throws IOException
+	public String runner(int times)
 	{
 		//This main accepts a number to determine the amount of times DiceGameSimulator should run DiceGame which, in turn, runs Craps. It then collects information of game won, game lost, the amount of rolls, and the specific value of both individual dies that were rolled that ended the game.
 
@@ -24,11 +23,11 @@ public class Driver
 		DiceGameResult[] array;
 
 		diceGameSimulator = new DiceGameSimulator(new Craps());
-		array = diceGameSimulator.runSimulator(5);
+		array = diceGameSimulator.runSimulator(times);
 
-		StringBuilder string = new StringBuilder();
+		//StringBuilder string = new StringBuilder();
 
-		for(int i=0; i<array.length; i++)
+		/*for(int i=0; i<array.length; i++)
 		{
 			//System.out.print(array[i].gameWon() + "; " + array[i].rollCount() + "; ");
 			string.append(array[i].gameWon() + "; " + array[i].rollCount() + "; ");
@@ -39,9 +38,11 @@ public class Driver
 			}//for
 			//System.out.println();
 			string.append("\n");
-		}//for
+		}//for*/
 
-		return string.toString();
+		//return string.toString();
+		String temp = new Gson().toJson(array);
+		return new Gson().toJson(array);
 	}//public main
 
 }//Driver
